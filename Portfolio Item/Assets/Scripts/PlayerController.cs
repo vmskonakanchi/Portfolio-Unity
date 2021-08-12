@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
-{
+{   
+    
     Rigidbody2D rb;
 
     [SerializeField] float moveSpeed;
@@ -19,6 +20,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         MovePlayer();
+        
+        
     }
 
     void MovePlayer()
@@ -39,4 +42,6 @@ public class PlayerController : MonoBehaviour
            isOnGround = true;
        }
    }
+    
+   
 }
