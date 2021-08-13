@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Platform
   - Enymy
+  - blue
+  - black
+  - red
+  - yellow
   layers:
   - Default
   - TransparentFX

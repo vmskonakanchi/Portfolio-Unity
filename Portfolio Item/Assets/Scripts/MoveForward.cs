@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class MoveForward : MonoBehaviour
 {
-    [SerializeField] float speed = 20f;
     Rigidbody2D rb;
+    [SerializeField] AmmoType ammoType;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = transform.right * speed;
     }
 
     void Update() 
