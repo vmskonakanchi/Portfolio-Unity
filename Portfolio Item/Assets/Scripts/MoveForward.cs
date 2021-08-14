@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class MoveForward : MonoBehaviour
 {
-    public ParticleSystem explosionParticle;
+    public GameObject explosionFX;
+    public  GameObject groundFx;
     Rigidbody2D rb;
     Enymy enymy;
     PlayerController playerController;
@@ -21,6 +22,9 @@ public class MoveForward : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D other)
     {
+        GameObject groundVFX = Instantiate(groundFx , gameObject.transform.position, Quaternion.identity);
+        groundVFX.GetComponent<ParticleSystem>().Play();
+        Destroy(gameObject);
         if(other.gameObject.CompareTag("Enymy") && playerController.fireIndex == 0)
         {
             enymy.enymyHitpoints -= 10;
@@ -32,6 +36,7 @@ public class MoveForward : MonoBehaviour
          if(other.gameObject.CompareTag("Enymy") && playerController.fireIndex == 2)
         {
             enymy.enymyHitpoints -= 70;
+            
         }
         if(other.gameObject.CompareTag("Enymy") && enymy.enymyHitpoints <= 0 )
         {
@@ -40,9 +45,8 @@ public class MoveForward : MonoBehaviour
         }
         if(other.gameObject.CompareTag("Enymy"))
         {
-            Debug.Log(explosionParticle.isPlaying);
-            Instantiate(explosionParticle);
-            explosionParticle.Play();
+            GameObject explosionVFX = Instantiate(explosionFX , gameObject.transform.position, Quaternion.identity);
+            explosionVFX.GetComponent<ParticleSystem>().Play();
             Destroy(gameObject);
         }
     }
@@ -59,8 +63,7 @@ public class MoveForward : MonoBehaviour
 
      void PlayParticle()
      {
-          GameObject firework = Instantiate(explosionParticle, gameObject.transform.position, Quaternion.identity);
-          firework.GetComponent<ParticleSystem>().Play();
+        
      }
 
 }

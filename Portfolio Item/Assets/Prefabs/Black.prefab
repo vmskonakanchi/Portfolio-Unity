@@ -134,4 +134,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b69a05dd9a99bb47b8c3d2d5136e197, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionParticle: {fileID: 198357973136645638, guid: 67a684e320da6e7439421a07e3fa265c, type: 3}
+  explosionFX: {fileID: 4080438818077244297, guid: ea212e7bdca8e304899f593d9314b314, type: 3}
+  groundFx: {fileID: 100018, guid: a40b64bf23366dc42a892af2c6ff6140, type: 3}

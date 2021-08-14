@@ -85,6 +85,7 @@ public class PlayerController : MonoBehaviour
 
     public void Fire ()
     {
+
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             NormalarrowCountText.gameObject.SetActive(true);
@@ -102,7 +103,7 @@ public class PlayerController : MonoBehaviour
         else if(Input.GetKeyDown(KeyCode.Alpha3) )
         {
             NormalarrowCountText.gameObject.SetActive(false);
-            FirearrowCountText.gameObject.SetActive(false );
+            FirearrowCountText.gameObject.SetActive(false);
             WaterarrowCountText.gameObject.SetActive(true);       
             fireIndex = 2;     
         }
@@ -124,8 +125,6 @@ public class PlayerController : MonoBehaviour
             GameObject newArrow = Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);
             newArrow.GetComponent<Rigidbody2D>().velocity =  transform.right * launchForce;      
         }
-
-            
     }
 
     void GroundCheck ()
