@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class ArrowMechanism : MonoBehaviour 
 {
-   
     void Start() 
     {
+        
     }
     void Update() 
     {
-
         ArrowDirection();
     }
 

@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class MoveForward : MonoBehaviour
 {
+    public ParticleSystem explosionParticle;
     Rigidbody2D rb;
-    [SerializeField] AmmoType ammoType;
+    Enymy enymy;
+    PlayerController playerController;
     void Start()
     {
+        enymy = GameObject.FindGameObjectWithTag("Enymy").GetComponent<Enymy>();
         rb = GetComponent<Rigidbody2D>();
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
 
     void Update() 
@@ -17,10 +21,28 @@ public class MoveForward : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D other)
     {
-        
+        if(other.gameObject.CompareTag("Enymy") && playerController.fireIndex == 0)
+        {
+            enymy.enymyHitpoints -= 10;
+        }
+         if(other.gameObject.CompareTag("Enymy") && playerController.fireIndex == 1)
+        {
+            enymy.enymyHitpoints -= 30;
+        }
+         if(other.gameObject.CompareTag("Enymy") && playerController.fireIndex == 2)
+        {
+            enymy.enymyHitpoints -= 70;
+        }
+        if(other.gameObject.CompareTag("Enymy") && enymy.enymyHitpoints <= 0 )
+        {
+            enymy.enymyHealthslider.gameObject.SetActive(false);
+            Destroy(other.gameObject);
+        }
         if(other.gameObject.CompareTag("Enymy"))
         {
-            Destroy(other.gameObject);
+            Debug.Log(explosionParticle.isPlaying);
+            Instantiate(explosionParticle);
+            explosionParticle.Play();
             Destroy(gameObject);
         }
     }
@@ -30,5 +52,15 @@ public class MoveForward : MonoBehaviour
         float angle = Mathf.Atan2(rb.velocity.y , rb.velocity.x);
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
+    void OnBecameInvisible() 
+    {
+         Destroy(gameObject);
+     }
+
+     void PlayParticle()
+     {
+          GameObject firework = Instantiate(explosionParticle, gameObject.transform.position, Quaternion.identity);
+          firework.GetComponent<ParticleSystem>().Play();
+     }
 
 }
