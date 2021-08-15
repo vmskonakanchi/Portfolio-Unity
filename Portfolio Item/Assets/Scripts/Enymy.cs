@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class Enymy : MonoBehaviour
 {
     PlayerController playerController;
+    Animator animator;
     public Slider enymyHealthslider;
     public Transform target;
     public Transform groundDetection;
@@ -17,7 +18,8 @@ public class Enymy : MonoBehaviour
 
 
     void Start()
-    {
+    {   
+        animator = GetComponent<Animator>();
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
     }
     void Update()
@@ -56,7 +58,7 @@ public class Enymy : MonoBehaviour
     {
      if(enymyHitpoints <= 0)
      {
-         //play enymy death animation
+        
          Destroy(gameObject);
      }
     }    

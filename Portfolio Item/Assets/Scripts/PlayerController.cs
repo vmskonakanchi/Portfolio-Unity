@@ -10,14 +10,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpSpeed;
     [SerializeField] bool isOnGround = false;
     [SerializeField]  GameObject [] arrowPrefabs;
+    public Transform firePoint;
     [SerializeField] Transform groundCheck;
-    [SerializeField] float launchForce = 10f;
-    [SerializeField] Transform firePoint;
+    [SerializeField] ParticleSystem bloodvfx;
+    public  float launchForce = 10f;
     public Slider slider;
     public TextMeshProUGUI NormalarrowCountText;
     public TextMeshProUGUI FirearrowCountText;
     public TextMeshProUGUI WaterarrowCountText;
     Rigidbody2D rb;
+    Animator animator;
     SpriteRenderer sp;
     public int fireIndex;
     public int playerhealthpoints = 100;
@@ -34,7 +36,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {     
         Fire();
-        MovePlayer();  
+       MovePlayer();  
         GroundCheck();
         UpdateUI();
         DestryOutOfBound();
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour
     }
     void GetComponents()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         ammo = gameObject.GetComponent<Ammo>();  
         sp = GetComponent<SpriteRenderer>();
@@ -76,10 +79,11 @@ public class PlayerController : MonoBehaviour
     void MovePlayer()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
-        rb.AddForce (Vector2.right * horizontalInput * moveSpeed  * Time.deltaTime ,ForceMode2D.Force);
+        rb.velocity = (Vector2.right * horizontalInput * moveSpeed  * Time.deltaTime);
         if(Input.GetKeyDown(KeyCode.Space) && isOnGround == true)
         {
-            rb.AddForce (Vector2.up * jumpSpeed * Time.deltaTime, ForceMode2D.Impulse);
+           
+            rb.AddForce (Vector2.up * jumpSpeed * Time.deltaTime,ForceMode2D.Impulse);
         }
     } 
 
@@ -109,21 +113,20 @@ public class PlayerController : MonoBehaviour
         }
         if(Input.GetMouseButtonDown(0) && ammo.NormalammoCount > 0 && fireIndex == 0 )
         {
+            
             ammo.NormalammoCount--;
-            GameObject newArrow = Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);
-            newArrow.GetComponent<Rigidbody2D>().velocity =  transform.right * launchForce;      
+            Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);     
         }
         else if(Input.GetMouseButtonDown(0) && ammo.FireammoCount > 0 && fireIndex ==  1)
         {
+            
             ammo.FireammoCount--;
-            GameObject newArrow = Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);
-            newArrow.GetComponent<Rigidbody2D>().velocity =  transform.right * launchForce;      
+           Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);
         }
         else if(Input.GetMouseButtonDown(0) && ammo.WaterammoCount > 0 && fireIndex ==  2)
-        {
+        {  
             ammo.WaterammoCount--;
-            GameObject newArrow = Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);
-            newArrow.GetComponent<Rigidbody2D>().velocity =  transform.right * launchForce;      
+            Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation); 
         }
     }
 
@@ -164,7 +167,8 @@ public class PlayerController : MonoBehaviour
     {
         if(playerhealthpoints <= 0)
         {
-             //play death animation
+        
+             //play death vfx 
             slider.gameObject.SetActive(false);
             Destroy(gameObject);
         }

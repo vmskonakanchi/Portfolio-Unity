@@ -7,6 +7,8 @@ public class MoveForward : MonoBehaviour
     public GameObject explosionFX;
     public  GameObject groundFx;
     Rigidbody2D rb;
+    [Range(0 ,50)]
+    [SerializeField]float speed = 10f;
     Enymy enymy;
     PlayerController playerController;
     void Start()
@@ -18,7 +20,8 @@ public class MoveForward : MonoBehaviour
 
     void Update() 
     {
-        Rotation();
+        Move();
+       // Rotation();
     }
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -61,9 +64,9 @@ public class MoveForward : MonoBehaviour
          Destroy(gameObject);
      }
 
-     void PlayParticle()
+     void Move()
      {
-        
+        transform.Translate(Vector3.right * speed * Time.deltaTime);
      }
 
 }
