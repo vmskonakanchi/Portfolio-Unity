@@ -19,8 +19,8 @@ public class ArrowMechanism : MonoBehaviour
 	}
     public void Direction()
     {
-        Vector2 arrowPos = transform.position;
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 arrowPos = transform.position;
         Vector2 Direction = mousePos - arrowPos;
         transform.right = Direction;
     }

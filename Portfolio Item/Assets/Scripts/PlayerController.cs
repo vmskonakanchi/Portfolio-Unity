@@ -6,28 +6,31 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {   
-    [SerializeField] float moveSpeed;
-    [SerializeField] float jumpSpeed;
-    [SerializeField] bool isOnGround = false;
-    [SerializeField]  GameObject [] arrowPrefabs;
-    public Transform firePoint;
-    [SerializeField] Transform groundCheck;
-    [SerializeField] ParticleSystem bloodvfx;
-    public  float launchForce = 10f;
-    public Slider slider;
-    public TextMeshProUGUI NormalarrowCountText;
-    public TextMeshProUGUI FirearrowCountText;
-    public TextMeshProUGUI WaterarrowCountText;
     Rigidbody2D rb;
     Animator animator;
     SpriteRenderer sp;
-    public int fireIndex;
-    public int playerhealthpoints = 100;
-    Vector3 screenPos; 
     Ammo ammo;
     Enymy enymy;
-   
-    
+    [Space(2f)]
+    [Header("Components")]
+    [Tooltip("Components Required For Enemy Controller")]
+    public Transform firePoint;
+    [SerializeField] Transform groundCheck;
+    [SerializeField] ParticleSystem bloodvfx;
+    [SerializeField]  GameObject [] arrowPrefabs;
+    public TextMeshProUGUI NormalarrowCountText;
+    public TextMeshProUGUI FirearrowCountText;
+    public TextMeshProUGUI WaterarrowCountText;
+    public Slider playerHealthbar;
+    [Space(2f)]
+    [Header("Player Properties")]
+    [Tooltip("Variables For Controlling Player")]
+    [SerializeField] float moveSpeed;
+    [SerializeField] float jumpSpeed;
+    [SerializeField] bool isOnGround = false;
+    public  float launchForce = 10f;
+    public int fireIndex;
+    public int playerhealthpoints = 100;  
     
     void Start()
     {
@@ -36,12 +39,13 @@ public class PlayerController : MonoBehaviour
     void Update()
     {     
         Fire();
-       MovePlayer();  
+        MovePlayer();  
         GroundCheck();
         UpdateUI();
         DestryOutOfBound();
         Die();
     }
+
     void GetComponents()
     {
         animator = GetComponent<Animator>();
@@ -76,10 +80,11 @@ public class PlayerController : MonoBehaviour
         
         
 
-    void MovePlayer()
+     public void MovePlayer()
     {
+       
         float horizontalInput = Input.GetAxis("Horizontal");
-        rb.velocity = (Vector2.right * horizontalInput * moveSpeed  * Time.deltaTime);
+        rb.AddForce (Vector2.right * horizontalInput * moveSpeed  * Time.deltaTime , ForceMode2D.Force);
         if(Input.GetKeyDown(KeyCode.Space) && isOnGround == true)
         {
            
@@ -89,7 +94,6 @@ public class PlayerController : MonoBehaviour
 
     public void Fire ()
     {
-
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
             NormalarrowCountText.gameObject.SetActive(true);
@@ -115,13 +119,14 @@ public class PlayerController : MonoBehaviour
         {
             
             ammo.NormalammoCount--;
-            Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);     
+           Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);
+
         }
         else if(Input.GetMouseButtonDown(0) && ammo.FireammoCount > 0 && fireIndex ==  1)
         {
             
             ammo.FireammoCount--;
-           Instantiate (arrowPrefabs[fireIndex] ,firePoint.position , firePoint.rotation);
+           Instantiate (arrowPrefabs[fireIndex] ,firePoint.position ,  firePoint.rotation);
         }
         else if(Input.GetMouseButtonDown(0) && ammo.WaterammoCount > 0 && fireIndex ==  2)
         {  
@@ -148,7 +153,8 @@ public class PlayerController : MonoBehaviour
         NormalarrowCountText.text = ammo.NormalammoCount.ToString();
         FirearrowCountText.text = ammo.FireammoCount.ToString();
         WaterarrowCountText.text = ammo.WaterammoCount.ToString();
-        slider.value = playerhealthpoints;
+        playerHealthbar.value = playerhealthpoints;
+        Debug.Log(playerhealthpoints);
     }
     void DestryOutOfBound()
     {
@@ -160,18 +166,22 @@ public class PlayerController : MonoBehaviour
         float maxX = rightlimit.x;
         if(pos.x < minX) pos.x = minX;
         if(pos.x > maxX) pos.x = maxX;
-        transform.position = pos;       
+        transform.position = pos;    
     }
 
     void Die()
     {
         if(playerhealthpoints <= 0)
-        {
-        
+        {       
              //play death vfx 
-            slider.gameObject.SetActive(false);
+            playerHealthbar.gameObject.SetActive(false);
             Destroy(gameObject);
         }
+
+            
     }
- 
+    
+    
 }
+ 
+
